@@ -123,8 +123,9 @@ const NextArrow = styled.div`
   transition: 0.5s ease-in;
   @media (max-width: 768px) {
     right: 0;
-    background: ${colors.sColor} url(${ArrowNextIcon}) no-repeat center /
-      contain;
+    width: 50px;
+    height: 50px;
+    background: url(${ArrowNextIcon}) no-repeat center / contain;
   }
   &:hover {
     background: ${colors.sColor} url(${ArrowNextIcon}) no-repeat center /
@@ -148,8 +149,9 @@ const PrevArrow = styled.div`
   transition: 0.5s ease-in;
   @media (max-width: 768px) {
     left: 0%;
-    background: ${colors.sColor} url(${ArrowPrevIcon}) no-repeat center /
-      contain;
+    width: 50px;
+    height: 50px;
+    background: url(${ArrowPrevIcon}) no-repeat center / contain;
   }
   &:hover {
     background: ${colors.sColor} url(${ArrowPrevIcon}) no-repeat center /

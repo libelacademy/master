@@ -42,6 +42,7 @@ const TemarioAccordeon = styled(Accordion)`
         & .title-header {
           & .nameUnity {
             color: #e6e6e6;
+            padding-left: 1rem;
             @media ${device.md} {
               padding-left: 1rem;
             }
@@ -89,6 +90,7 @@ const TemarioAccordeon = styled(Accordion)`
         & .nameUnity {
           color: gray;
           font-size: 0.9em;
+          padding-left: 1rem;
           @media ${device.md} {
             padding-left: 1rem;
           }

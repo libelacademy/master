@@ -2,4 +2,61 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
+  background: #eeeeee;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7000e3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b31ff;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #8b31ff;
+}
+
+::-webkit-scrollbar-track {
+  background: #1d1d1d;
+}
+
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active {
+background: #262626;
+}
+textarea::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #7000e3;
+  border-radius: 7px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #8b31ff;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+textarea::-webkit-scrollbar-thumb:active {
+  background-color: #8b31ff;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #c2c2c2;
+  border-radius: 7px;
+}
+
+textarea::-webkit-scrollbar-track:hover,
+textarea::-webkit-scrollbar-track:active {
+background: #bababa;
 }

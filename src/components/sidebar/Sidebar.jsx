@@ -13,6 +13,10 @@ import CounterSidebar from "../section-form/CounterSidebar";
 //Images
 import WhatsappIcon from "../../images/icons/whatsapp.svg";
 import PdfIcon from "../../images/icons/pdf.svg";
+import Teacher from "../../images/teacher.png";
+import ArrowPrevIcon from "../../images/icons/arrow-left.svg";
+import ArrowNextIcon from "../../images/icons/arrow-right.svg";
+import Close from "../../images/icons/close-gray.svg";
 
 const Button = styled.button`
   border: none;
@@ -72,7 +76,7 @@ const Aside = styled.aside`
   .top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1rem 0;
     border-bottom: 1px solid #e7e7e7;
     &-title {
@@ -90,19 +94,43 @@ const Aside = styled.aside`
   }
   .content {
     padding: 1rem 0;
-    &-title{
+    &-title {
       text-align: center;
       font-weight: 700;
       margin: 1rem 0 2rem 0;
       color: #494949;
+      font-size: 1.1em;
     }
     &-video {
       width: 100%;
       height: 220px;
-      background: red;
       overflow: hidden;
       border-radius: 20px;
       margin-bottom: 2rem;
+      position: relative;
+      & .badge-video {
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: ${colors.pColor};
+        position: absolute;
+        bottom: 10px;
+        color: white;
+        font-size: 0.8em;
+        &-teacher {
+          & img {
+            width: 30px;
+            margin-right: 8px;
+          }
+          display: flex;
+          align-items: center;
+          left: 10px;
+        }
+        &-date {
+          position: absolute;
+          font-weight: 700;
+          right: 10px;
+        }
+      }
       & iframe {
         width: 100%;
         height: 250px;
@@ -121,7 +149,7 @@ const Aside = styled.aside`
       &-button {
         border: none;
         border-radius: 10px;
-        padding: 0.7rem 1.6rem;
+        padding: 0.7rem 1.1rem;
         position: relative;
         display: inline-block;
         color: white;
@@ -130,8 +158,12 @@ const Aside = styled.aside`
         ${anims.transition};
         display: flex;
         align-items: center;
+        margin: 0 0.1rem;
+        &:hover {
+          text-decoration: none;
+        }
         &-icon {
-          width: 30px;
+          width: 20px;
           margin-right: 1em;
         }
         &--tematica {
@@ -159,13 +191,70 @@ const ModalStyle = styled(Modal)`
     background: transparent;
     border: none;
   }
+  & .close {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    z-index: 100;
+    width: 20px;
+    height: 20px;
+    background: url(${Close});
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
 `;
 
 const LogosCarousel = styled(Slider)`
   position: relative;
-  margin: 2rem auto 1rem auto ;
+  margin: 0 auto 1rem auto;
   padding: 0 1rem;
   width: 90%;
+`;
+
+const NextArrow = styled.div`
+  background: url(${ArrowNextIcon}) no-repeat center / contain;
+  top: 50% !important;
+  right: -15px;
+  z-index: 1000;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  overflow: hidden;
+  transition: 0.5s ease-in;
+  @media (max-width: 768px) {
+    right: -10%;
+    background: url(${ArrowNextIcon}) no-repeat center / contain;
+  }
+  &:hover {
+    background: #f0f0f0 url(${ArrowNextIcon}) no-repeat center / contain;
+  }
+  &::before {
+    display: none;
+  }
+`;
+
+const PrevArrow = styled.div`
+  background: url(${ArrowPrevIcon}) no-repeat center / contain;
+  left: inherit;
+  top: 50% !important;
+  left: -15px;
+  z-index: 1000;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  overflow: hidden;
+  transition: 0.5s ease-in;
+  @media (max-width: 768px) {
+    left: -10%;
+    background: url(${ArrowPrevIcon}) no-repeat center / contain;
+  }
+  &:hover {
+    background: #f0f0f0 url(${ArrowPrevIcon}) no-repeat center / contain;
+  }
+  &::before {
+    display: none;
+  }
 `;
 
 const Sidebar = ({ trailer, infoMaster }) => {
@@ -179,58 +268,80 @@ const Sidebar = ({ trailer, infoMaster }) => {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 2,
-    autoPlay: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
   console.log(infoMaster.logos);
   return (
     <>
-      <Aside>
+      <Aside className="form-asesory">
         <div className="top">
           <h4 className="top-title">Master en:</h4>
         </div>
         <div className="content">
           <h2 className="content-title">{infoMaster.description.title}</h2>
           <div className="content-video">
+            <div className="badge-video badge-video-teacher">
+              <img src={Teacher} alt="" />
+              <div className="info-teacher">
+                <span style={{ fontWeight: "800" }}>Profesor:</span> <br></br>
+                <span>Ricardo Díaz</span>
+              </div>
+            </div>
             <iframe
               src="https://www.youtube.com/embed/d05KvpHPF-M"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
+            <div className="badge-video badge-video-date">
+              Inicia: 21 Abril 2021
+            </div>
           </div>
           <CounterSidebar date={infoMaster.description.dateSystem} />
-          <LogosCarousel {...settings}>
-            {infoMaster.logos.length > 0 ? (
-              infoMaster.logos.map((logo) => (
-                <img src={logo.img} key={logo.id} />
-              ))
-            ) : (
-              <span> No hay logos</span>
-            )}
-          </LogosCarousel>
+          <Button className="send-form" onClick={handleShow}>
+            <span>Solicitar asesoría</span>
+          </Button>
         </div>
-        <Button className="send-form" onClick={handleShow}>
-          <span>Solicitar asesoría</span>
-        </Button>
+        <LogosCarousel {...settings}>
+          {infoMaster.logos.length > 0 ? (
+            infoMaster.logos.map((logo) => <img src={logo.img} key={logo.id} />)
+          ) : (
+            <span> No hay logos</span>
+          )}
+        </LogosCarousel>
+
         <div className="bottom">
           <div className="links">
-            <button className="links-button links-button--tematica">
+            <a
+              className="links-button links-button--tematica"
+              target="_blank"
+              href="https://drive.google.com/file/d/1Eu0BsVRa0nD_g8qEHn15wrLWVB27IV6a/view"
+            >
+              <img src={PdfIcon} className="links-button-icon" alt="whatsapp" />
+              <span>Temática</span>
+            </a>
+            <a
+              href="http://bit.ly/3dnKVFU"
+              target="_blank"
+              className="links-button links-button--whatsapp"
+            >
               <img
-                src={PdfIcon}
+                src={WhatsappIcon}
                 className="links-button-icon"
                 alt="whatsapp"
               />
-              <span>Temática</span>
-            </button>
-            <button className="links-button links-button--whatsapp">
-              <img src={WhatsappIcon} className="links-button-icon" alt="whatsapp" />
               <span>Whatsapp</span>
-            </button>
+            </a>
           </div>
         </div>
       </Aside>
       <ModalStyle show={show} onHide={handleClose}>
         <Modal.Body>
+          <button onClick={handleClose} className="close">
+          </button>
           <Form />
         </Modal.Body>
       </ModalStyle>

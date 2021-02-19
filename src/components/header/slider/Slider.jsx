@@ -11,7 +11,7 @@ import ModalTrailer from "../../general/ModalTrailer";
 import { gsap } from "gsap";
 
 //Styles
-import { colors } from "../../../utils/theme";
+import { anims, colors } from "../../../utils/theme";
 import styled from "styled-components";
 
 //Responsive
@@ -19,18 +19,43 @@ import { device } from "../../../utils/breakpoints";
 
 //Images
 import DateIcon from "../../../images/icons/date.svg";
-
+import NextArrow from "../../../images/icons/next-arrow.svg";
+import PrevArrow from "../../../images/icons/prev-arrow.svg";
 
 const SliderDiv = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+  overflow: hidden;
   @media ${device.lg} {
     height: 90vh;
   }
+  .arrow-slide {
+    top: 50%;
+    width: 70px;
+    position: absolute;
+    z-index: 100;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border-radius: 50%;
+    ${anims.transition};
+    display: none;
+    @media ${device.lg} {
+      display: block;
+    }
+    &:hover {
+      background: ${colors.pColor};
+    }
+    &-prev {
+      left: 30px;
+    }
+    &-next {
+      right: 30px;
+    }
+  }
   & .info-slider {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     & .title {
       color: white;
       font-weight: 800;
@@ -91,7 +116,44 @@ const SliderDiv = styled.div`
       }
     }
   }
-
+  & .slide-character {
+    width: 80%;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 10%;
+    z-index: 1;
+    pointer-events: none;
+    @media ${device.lg} {
+      width: 50%;
+    }
+  }
+  & .slide-character-2 {
+    width: 80%;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -10%;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    @media ${device.lg} {
+      width: 50%;
+    }
+  }
+  & .slide-character-3 {
+    width: 80%;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 20%;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    @media ${device.lg} {
+      width: 50%;
+    }
+  }
   & .slide {
     width: 100%;
     height: 100%;
@@ -105,6 +167,9 @@ const SliderDiv = styled.div`
     opacity: 0;
     display: none;
     z-index: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    ${anims.transition};
     @media ${device.lg} {
       height: 90vh;
       background-color: ${colors.pDark};
@@ -115,36 +180,118 @@ const SliderDiv = styled.div`
     &--active {
       opacity: 1;
       display: block;
-    }
-    &-character {
-      width: 80%;
-      position: absolute;
-      top: 0;
-      right: 10%;
-      z-index: 10;
-      @media ${device.lg} {
-        width: 50%;
-      }
+      overflow: hidden;
     }
   }
 `;
 
 export default function Slider({ infoSlider, slides }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentImage, setCurrentImage] = useState("");
+
+  const prevSlide = () => {
+    let current = currentSlide;
+    if (current === 1) {
+      setCurrentSlide(current - 1);
+      gsap.to(character, {
+        x: 0,
+        duration: 2,
+        opacity: 1,
+        delay: 0,
+        ease: "power3.out",
+      });
+      gsap.to(character3, {
+        x: -300,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+      gsap.to(character2, {
+        x: 0,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+    } else {
+      gsap.to(character, {
+        x: -300,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+
+      gsap.to(character2, {
+        x: -300,
+        duration: 2,
+        opacity: 1,
+        delay: 0,
+        ease: "power3.out",
+      });
+      setCurrentSlide(1);
+    }
+  };
+
+  const nextSlide = () => {
+    let current = currentSlide;
+    if (current < 1) {
+      setCurrentSlide(current + 1);
+      gsap.to(character, {
+        x: 600,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+      gsap.to(character3, {
+        x: 300,
+        duration: 2,
+        opacity: 1,
+        delay: 0,
+        ease: "power3.out",
+      });
+    } else {
+      gsap.to(character, {
+        x: 0,
+        duration: 2,
+        opacity: 1,
+        delay: 0,
+        ease: "power3.out",
+      });
+      gsap.to(character2, {
+        x: 300,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+      setCurrentSlide(0);
+      gsap.to(character3, {
+        x: -300,
+        duration: 2,
+        opacity: 0,
+        delay: 0,
+        ease: "power3.out",
+      });
+      setCurrentSlide(0);
+    }
+  };
 
   //Modal
-  const [openTrailer, setOpenTrailer] = useState(null)
+  const [openTrailer, setOpenTrailer] = useState(null);
   const handleTrailer = () => {
-    setOpenTrailer(true)
-  }
-  const handleCloseModal = e => {
-    if( modalContent.current && !modalContent.current.contains(e.target)){
+    setOpenTrailer(true);
+  };
+  const handleCloseModal = (e) => {
+    if (modalContent.current && !modalContent.current.contains(e.target)) {
       setOpenTrailer(false);
     }
-  }
-  const closeModal = e => {
+  };
+  const closeModal = (e) => {
     setOpenTrailer(false);
-  }
+  };
 
   let modalContent = useRef(null);
 
@@ -154,6 +301,8 @@ export default function Slider({ infoSlider, slides }) {
   let title2 = useRef(null);
   let subtitle = useRef(null);
   let character = useRef(null);
+  let character2 = useRef(null);
+  let character3 = useRef(null);
   let date = useRef(null);
   let counter = useRef(null);
 
@@ -222,6 +371,17 @@ export default function Slider({ infoSlider, slides }) {
   return (
     <>
       <SliderDiv className="slider">
+        <img
+          src={PrevArrow}
+          onClick={prevSlide}
+          className="arrow-slide arrow-slide-prev"
+        />
+        <img
+          src={NextArrow}
+          onClick={nextSlide}
+          className="arrow-slide arrow-slide-next"
+        />
+        <button></button>
         <Container className="h-100 info-slider">
           <Row className="align-items-center h-100">
             <Col lg={6}>
@@ -280,8 +440,8 @@ export default function Slider({ infoSlider, slides }) {
                     counter = el;
                   }}
                 >
-                  <CounterSlider 
-                    date={infoSlider.dateSystem} 
+                  <CounterSlider
+                    date={infoSlider.dateSystem}
                     handleTrailer={handleTrailer}
                   />
                 </Col>
@@ -294,33 +454,40 @@ export default function Slider({ infoSlider, slides }) {
             i === 0 ? (
               <div
                 className="slide slide--active"
-                style={{ backgroundImage: `url(${slide.background})` }}
+                style={{
+                  backgroundImage: `url(${slides[currentSlide].background})`,
+                }}
                 key={slide.id}
-              >
-                <img
-                  src={slide.character}
-                  ref={(el) => {
-                    character = el;
-                  }}
-                  className="slide-character"
-                ></img>
-              </div>
-            ) : (
-              <div
-                className="slide"
-                style={{ backgroundImage: `url(${slide.background})` }}
-                key={slide.id}
-              >
-                <img src={slide.character} className="slide-character"></img>
-              </div>
-            )
+              ></div>
+            ) : null
           )}
+        <img
+          src={slides[currentSlide].character}
+          ref={(el) => {
+            character = el;
+          }}
+          className="slide-character"
+        ></img>
+        <img
+          src={slides[currentSlide].character}
+          ref={(el) => {
+            character2 = el;
+          }}
+          className="slide-character-2"
+        ></img>
+        <img
+          src={slides[currentSlide].character}
+          ref={(el) => {
+            character3 = el;
+          }}
+          className="slide-character-3"
+        ></img>
       </SliderDiv>
-      <ModalTrailer 
-        modalState={openTrailer} 
-        closeTrailer={handleCloseModal} 
-        closeModal={closeModal} 
-        forwardRef={modalContent} 
+      <ModalTrailer
+        modalState={openTrailer}
+        closeTrailer={handleCloseModal}
+        closeModal={closeModal}
+        forwardRef={modalContent}
       />
     </>
   );

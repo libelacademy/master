@@ -150,7 +150,7 @@ const ModalOverlay = styled.div`
   }
 `
 
-const ModalTrailer = ({ modalState, closeTrailer, closeModal, forwardRef }) => {
+const ModalResult = ({ modalState, closeTrailer, closeModal, forwardRef, url }) => {
 
   return (
     <ModalOverlay
@@ -173,4 +173,4 @@ const ModalTrailer = ({ modalState, closeTrailer, closeModal, forwardRef }) => {
   )
 }
 
-export default ModalTrailer
+export default ModalResult

@@ -140,6 +140,7 @@ const CounterDiv = styled.div`
       ${anims.transition};
       display: flex;
       align-items: center;
+      cursor: pointer;
       &-icon {
         width: 30px;
         margin-right: 1em;
@@ -148,12 +149,14 @@ const CounterDiv = styled.div`
         background: ${colors.pColor};
         &:hover {
           background: ${colors.pLight};
+          text-decoration: none;
         }
       }
       &--whatsapp {
         background: #1bd741;
         &:hover {
           background: #3dff64;
+          text-decoration: none;
         }
       }
     }
@@ -232,14 +235,14 @@ const CounterSlider = ({ date, handleTrailer }) => {
       </div>
       <button className="play-trailer" onClick={handleTrailer} />
       <div className="links">
-        <button className="links-button links-button--tematica">
+        <a className="links-button links-button--tematica" target="_blank" href="https://drive.google.com/file/d/1Eu0BsVRa0nD_g8qEHn15wrLWVB27IV6a/view" >
           <img src={PdfIcon} className="links-button-icon" alt="whatsapp" />
           <span>Temática</span>
-        </button>
-        <button className="links-button links-button--whatsapp">
-          <img src={WhatsappIcon} className="links-button-icon" alt="whatsapp" />
+        </a>
+        <a className="links-button links-button--whatsapp" href="http://bit.ly/3dnKVFU" target="_blank">
+          <img src={WhatsappIcon}  className="links-button-icon" alt="whatsapp" />
           <span>Whatsapp</span>
-        </button>
+        </a>
       </div>
     </CounterDiv>
   );
